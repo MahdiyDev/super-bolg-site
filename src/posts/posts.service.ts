@@ -20,9 +20,38 @@ export class PostsService {
 
   async getPosts() {
     try {
-      return await this.postsResposity.find({
+      const newPosts = [];
+      const posts = await this.postsResposity.find({
         relations: ['postCategory', 'postOwner'],
+        order: { postDate: 'DESC' },
       });
+
+      for (let i = 0; i < posts.length; i++) {
+        const {
+          postId,
+          postTitle,
+          postContent,
+          postImage,
+          postDate,
+          postCategory,
+          postOwner,
+        } = posts[i];
+
+        newPosts.push({
+          postId,
+          postTitle,
+          postContent,
+          postImage,
+          postDate,
+          postCategory,
+          postOwner: {
+            adminId: postOwner.adminId,
+            adminUsername: postOwner.adminUsername,
+          },
+        });
+      }
+
+      return newPosts;
     } catch (_) {
       return new InternalServerErrorException();
     }
