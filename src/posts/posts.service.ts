@@ -18,7 +18,7 @@ export class PostsService {
     private categoryService: CategoriesService,
   ) {}
 
-  async getPosts() {
+  async getPosts(): Promise<any> {
     try {
       const newPosts = [];
       const posts = await this.postsResposity.find({
@@ -55,6 +55,19 @@ export class PostsService {
     } catch (_) {
       return new InternalServerErrorException();
     }
+  }
+
+  async getByCategory(category: string) {
+    const arrPosts = [];
+    const posts = await this.getPosts();
+    for (let i = 0; i < posts.length; i++) {
+      const element = posts[i];
+      const el = element.postCategory.find(
+        (c: { categoryName: string }) => c.categoryName === category,
+      );
+      if (element.postCategory.includes(el)) arrPosts.push(element);
+    }
+    return arrPosts;
   }
 
   async createPost(post: Posts, file: any, auth: string) {

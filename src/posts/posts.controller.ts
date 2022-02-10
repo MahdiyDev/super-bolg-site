@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Headers,
+  Param,
   Post,
   Put,
   UploadedFiles,
@@ -20,6 +21,11 @@ export class PostsController {
   @Get()
   getPosts() {
     return this.postService.getPosts();
+  }
+
+  @Get(':category')
+  getByCategory(@Param('category') category: string) {
+    return this.postService.getByCategory(category);
   }
 
   @Post()
