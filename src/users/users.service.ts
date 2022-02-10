@@ -87,6 +87,7 @@ export class UsersService {
 
       const founduser = await this.usersReposity.findOne({
         userUsername: user.userUsername,
+        userPassword: user.userPassword,
       });
 
       if (founduser) {

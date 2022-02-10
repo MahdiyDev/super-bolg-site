@@ -91,6 +91,7 @@ export class AdminsService {
 
       const foundAdmin = await this.adminsReposity.findOne({
         adminUsername: admin.adminUsername,
+        adminPassword: admin.adminPassword,
       });
 
       if (foundAdmin) {
